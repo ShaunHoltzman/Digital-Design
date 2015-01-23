@@ -1,0 +1,42 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+ENTITY topLevel_tb IS 
+	END topLevel_tb;
+	
+ARCHITECTURE TB OF toplevel_tb IS 
+
+	
+			SIGNAL CLK        : STD_LOGIC := '0';
+			SIGNAL RESETn     : STD_LOGIC := '0'; 
+			SIGNAL IR_OUTPUT  : STD_LOGIC_VECTOR(7 DOWNTO 0);
+		
+			
+					
+BEGIN
+
+	 UUT : ENTITY work.topLevel
+    PORT MAP
+	 (
+      CLK  => CLK,
+		RESETn => RESETn,
+		IR_OUTPUT => IR_OUTPUT
+	 );
+		
+		CLK <= NOT CLK AFTER 10 ns;
+		
+	PROCESS 
+	
+		WAIT FOR 40 ns;
+		
+		RESETn <= '1';
+		
+		WAIT;
+	
+	
+	END PROCESS;
+	
+END TB;
+	
+	

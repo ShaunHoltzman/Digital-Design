@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="topLevel">
+		<CBX_INST_ENTRY INSTANCE_NAME="|topLevel|ALU:ALU|lpm_mult:Mult0" CBX_FILE_NAME="mult_19t.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|topLevel|topRAM:RAM|RAM:RAM|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_6lv3.tdf"/>
+	</PROJECT>
+</LOG_ROOT>

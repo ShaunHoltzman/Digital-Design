@@ -1,0 +1,146 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+ENTITY topLevel IS 
+	PORT
+		( 
+			CLK       : IN STD_LOGIC;
+			RESETn     : IN STD_LOGIC;
+			IR.OUTPUT  : OUT STD_LOGIC
+		);
+	END topLevel;
+	
+	
+	ARCHITECTURE STR OF topLevel IS 
+	
+	
+		SIGNAL dataBus			 : STD_LOGIC_VECTOR(7 DOWNTO 0);
+	
+		SIGNAL PC_H.INC		 : STD_LOGIC;
+		SIGNAL PC_H.OUTEN     : STD_LOGIC;
+		SIGNAL PC_L.INC		 : STD_LOGIC;
+		SIGNAL PC_L.OUTEN		 : STD_LOGIC;
+		SIGNAL AR_H.LD			 : STD_LOGIC;
+		SIGNAL AR_L.LD			 : STD_LOGIC;
+		SIGNAL IR.LD		    : STD_LOGIC;
+		SIGNAL WREN				 : STD_LOGIC;
+		SIGNAL RDEN				 : STD_LOGIC;
+		
+		SIGNAL tempAddrH		 : STD_LOGIC_VECTOR(7 DOWNTO 0);
+		SIGNAL tempAddrL		 : STD_LOGIC_VECTOR(7 DOWNTO 0);
+		SIGNAL Address			 : STD_LOGIC_VECTOR(15 DOWNTO 0);
+		
+		SIGNAL MEM.EN			 : STD_LOGIC;
+		SIGNAL IN1.EN			 : STD_LOGIC;
+		SIGNAL IN0.EN			 : STD_LOGIC;
+		SIGNAL OUT1.EN			 : STD_LOGIC;
+		SIGNAL OUT0.EN			 : STD_LOGIC;
+		SIGNAL MEMOUT.EN		 : STD_LOGIC;
+		
+		SIGNAL OPCODE			 : STD_LOGIC_VECTOR(7 DOWNTO 0);
+	
+
+	BEGIN
+	
+	IR : ENTITY work.instructionRegister
+		PORT MAP
+		(
+		RESETn => RESETn,
+		CLK => CLK,
+		IR.LD => IR.LD,
+		Input => dataBus,
+		IR => OPCODE
+		);
+		
+		IR.OUTPUT <= OPCODE;
+	
+	Controller : ENTITY work.Controller
+		PORT MAP
+		(
+		RESETn => RESETn,
+		CLK => CLK,
+		OPCODE => OPCODE,
+		PC_H.INC => PC_H.INC,
+		PC_H.OUTEN => PC_H.OUTEN,
+		PC_L.INC => PC_L.INC,
+		PC_L.OUTEN => PC_L.OUTEN,
+		AR_H.LD => AR_H.LD,
+		AR_L.LD => AR_L.LD,
+		IR.LD => IR.LD,
+		WREN => WREN,
+		RDEN => RDEN
+		);
+		
+		
+	ProgramCounterHigh : ENTITY work.PC_H
+		PORT MAP
+		(
+		CLK => CLK, 
+		PC_H.INC => PC_H.INC,
+		PC_H.OUTEN => PC_H.OUTEN,
+		Resetn => RESETn,
+		PC_H => dataBus
+		);
+	
+	ProgramCounterLow : ENTITY work.PC_L
+		PORT MAP
+		(
+		CLK => CLK, 
+		PC_L.INC => PC_L.INC,
+		PC_L.OUTEN => PC_L.OUTEN,
+		Resetn => RESETn,
+		PC_L => dataBus
+		);
+		
+	AddressRegisterHigh : ENTITY work.AR_H
+		PORT MAP
+		(
+		CLK => CLK,
+		AR_H.LD => AR_H.LD,
+		Input => dataBus,
+		AR_H => tempAddrH
+		);
+		
+	AddressRegisterLow : ENTITY work.AR_L
+		PORT MAP
+		(
+		CLK => CLK,
+		AR_L.LD => AR_L.LD,
+		Input => dataBus,
+		AR_L => tempAddrL
+		);
+		
+		Address <= tempAddrH & tempAddrL;
+		
+	EnableDecoder : ENTITY work.Decode
+		PORT MAP
+		(
+		ADDR => Address,
+		WREN => WREN,
+		RDEN => RDEN,
+		MEM.EN => MEM.EN,
+		IN0.EN => IN0.EN,
+		IN1.EN => IN1.EN,
+		OUT0.EN => OUT0.EN,
+		OUT1.EN => OUT1.EN
+		);
+		
+		
+	MEMOUT.EN <= RDEN AND MEM.EN;
+	
+	RAM : ENTITY work.topRAM
+		PORT MAP
+		(
+		WREN => WREN,
+		RDEN => RDEN,
+		CLK => CLK,
+		MEMOUT.EN <= MEMOUT.EN,
+		ADDR <= Address,
+		dataIn <= dataBus,
+		dataOut <= dataBus	
+		);
+		
+
+	END STR;
+		

@@ -1,0 +1,173 @@
+------------------------------------------------------------
+TimeQuest Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Slow 1200mV 85C Model Setup 'slowCLK:slowCLK|onoff'
+Slack : -6.643
+TNS   : -815.316
+
+Type  : Slow 1200mV 85C Model Setup 'CLK'
+Slack : -5.436
+TNS   : -24.830
+
+Type  : Slow 1200mV 85C Model Setup 'Controller:Controller|state.DECODE'
+Slack : -1.915
+TNS   : -36.357
+
+Type  : Slow 1200mV 85C Model Setup 'instructionRegister:IR|Data[0]'
+Slack : -1.338
+TNS   : -2.278
+
+Type  : Slow 1200mV 85C Model Hold 'instructionRegister:IR|Data[0]'
+Slack : -3.990
+TNS   : -84.735
+
+Type  : Slow 1200mV 85C Model Hold 'slowCLK:slowCLK|onoff'
+Slack : -1.235
+TNS   : -1.235
+
+Type  : Slow 1200mV 85C Model Hold 'Controller:Controller|state.DECODE'
+Slack : -0.732
+TNS   : -0.732
+
+Type  : Slow 1200mV 85C Model Hold 'CLK'
+Slack : -0.245
+TNS   : -0.290
+
+Type  : Slow 1200mV 85C Model Recovery 'instructionRegister:IR|Data[0]'
+Slack : -0.199
+TNS   : -0.199
+
+Type  : Slow 1200mV 85C Model Removal 'instructionRegister:IR|Data[0]'
+Slack : -3.275
+TNS   : -45.730
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CLK'
+Slack : -3.000
+TNS   : -15.696
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'slowCLK:slowCLK|onoff'
+Slack : -1.941
+TNS   : -178.528
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'instructionRegister:IR|Data[0]'
+Slack : -0.895
+TNS   : -142.267
+
+Type  : Slow 1200mV 85C Model Minimum Pulse Width 'Controller:Controller|state.DECODE'
+Slack : 0.438
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Setup 'slowCLK:slowCLK|onoff'
+Slack : -5.896
+TNS   : -716.695
+
+Type  : Slow 1200mV 0C Model Setup 'CLK'
+Slack : -4.824
+TNS   : -21.532
+
+Type  : Slow 1200mV 0C Model Setup 'Controller:Controller|state.DECODE'
+Slack : -1.681
+TNS   : -31.206
+
+Type  : Slow 1200mV 0C Model Setup 'instructionRegister:IR|Data[0]'
+Slack : -1.269
+TNS   : -2.564
+
+Type  : Slow 1200mV 0C Model Hold 'instructionRegister:IR|Data[0]'
+Slack : -3.539
+TNS   : -70.786
+
+Type  : Slow 1200mV 0C Model Hold 'slowCLK:slowCLK|onoff'
+Slack : -1.120
+TNS   : -1.120
+
+Type  : Slow 1200mV 0C Model Hold 'Controller:Controller|state.DECODE'
+Slack : -0.643
+TNS   : -0.643
+
+Type  : Slow 1200mV 0C Model Hold 'CLK'
+Slack : -0.207
+TNS   : -0.286
+
+Type  : Slow 1200mV 0C Model Recovery 'instructionRegister:IR|Data[0]'
+Slack : -0.144
+TNS   : -0.144
+
+Type  : Slow 1200mV 0C Model Removal 'instructionRegister:IR|Data[0]'
+Slack : -2.888
+TNS   : -40.159
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'CLK'
+Slack : -3.000
+TNS   : -15.696
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'slowCLK:slowCLK|onoff'
+Slack : -1.941
+TNS   : -178.528
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'instructionRegister:IR|Data[0]'
+Slack : -0.642
+TNS   : -115.800
+
+Type  : Slow 1200mV 0C Model Minimum Pulse Width 'Controller:Controller|state.DECODE'
+Slack : 0.450
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Setup 'slowCLK:slowCLK|onoff'
+Slack : -3.371
+TNS   : -410.395
+
+Type  : Fast 1200mV 0C Model Setup 'CLK'
+Slack : -2.662
+TNS   : -11.075
+
+Type  : Fast 1200mV 0C Model Setup 'Controller:Controller|state.DECODE'
+Slack : -0.680
+TNS   : -10.485
+
+Type  : Fast 1200mV 0C Model Setup 'instructionRegister:IR|Data[0]'
+Slack : -0.591
+TNS   : -0.591
+
+Type  : Fast 1200mV 0C Model Hold 'instructionRegister:IR|Data[0]'
+Slack : -2.458
+TNS   : -49.857
+
+Type  : Fast 1200mV 0C Model Hold 'slowCLK:slowCLK|onoff'
+Slack : -0.781
+TNS   : -0.781
+
+Type  : Fast 1200mV 0C Model Hold 'Controller:Controller|state.DECODE'
+Slack : -0.595
+TNS   : -0.595
+
+Type  : Fast 1200mV 0C Model Hold 'CLK'
+Slack : -0.266
+TNS   : -0.340
+
+Type  : Fast 1200mV 0C Model Recovery 'instructionRegister:IR|Data[0]'
+Slack : -0.115
+TNS   : -0.115
+
+Type  : Fast 1200mV 0C Model Removal 'instructionRegister:IR|Data[0]'
+Slack : -1.860
+TNS   : -25.725
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CLK'
+Slack : -3.000
+TNS   : -11.698
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'slowCLK:slowCLK|onoff'
+Slack : -1.000
+TNS   : -171.000
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'instructionRegister:IR|Data[0]'
+Slack : -0.525
+TNS   : -42.549
+
+Type  : Fast 1200mV 0C Model Minimum Pulse Width 'Controller:Controller|state.DECODE'
+Slack : 0.428
+TNS   : 0.000
+
+------------------------------------------------------------
