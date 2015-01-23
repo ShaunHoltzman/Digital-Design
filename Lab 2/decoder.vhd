@@ -1,0 +1,42 @@
+LIBRARY ieee ;
+USE ieee.std_logic_1164.all ;
+
+ENTITY decoder IS
+	PORT( w : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+			y_n : OUT STD_LOGIC_VECTOR(0 TO 6));
+END decoder; 
+
+ARCHITECTURE Behavior OF decoder IS
+
+	SIGNAL y : STD_LOGIC_VECTOR(0 TO 6);
+	
+	BEGIN
+		y <= 	"1111110" WHEN w="0000" ELSE
+				"0110000" WHEN w="0001" ELSE
+				"1101101" WHEN w="0010" ELSE
+				"1111001" WHEN w="0011" ELSE
+				
+				"0110011" WHEN w="0100" ELSE
+				"1011011" WHEN w="0101" ELSE	
+				"1011111" WHEN w="0110" ELSE
+				"1110000" WHEN w="0111" ELSE
+				
+				"1111111" WHEN w="1000" ELSE
+				"1110011" WHEN w="1001" ELSE
+				"1110111" WHEN w="1010" ELSE
+				"0011111" WHEN w="1011" ELSE
+				
+				"1001110" WHEN w="1100" ELSE
+				"0111101" WHEN w="1101" ELSE
+				"1001111" WHEN w="1110" ELSE
+				"1000111" WHEN w="1111" ELSE
+				"0000001";
+		
+		y_n <= (NOT y);	
+		
+END Behavior;
+				
+				
+				
+				
+				
