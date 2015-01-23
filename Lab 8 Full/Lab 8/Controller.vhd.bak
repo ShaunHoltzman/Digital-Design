@@ -1,0 +1,85 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+
+ENTITY Controller IS
+	PORT
+		( 
+			RESETn           : IN STD_LOGIC;
+			CLK              : IN STD_LOGIC;
+			OPCODE			  : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+			PC_H.INC			  : OUT STD_LOGIC;
+			PC_H.OUTEN       : OUT STD_LOGIC;
+			PC_L.INC			  : OUT STD_LOGIC;
+			PC_L.OUTEN		  : OUT STD_LOGIC;
+			AR_H.LD			  : OUT STD_LOGIC;
+			AR_L.LD			  : OUT STD_LOGIC;
+			IR.LD				  : OUT STD_LOGIC;
+			WREN				  : OUT STD_LOGIC;
+			RDEN				  : OUT STD_LOGIC
+		);
+	END Controller;
+	
+		ARCHITECTURE STR OF Controller IS 
+		
+		TYPE ctrlStateType IS (INITIALIZE, FETCH0, FETCH1, FETCH2, DECODE);
+		SIGNAL state, nextState : ctrlStateType; 
+	
+	BEGIN
+	
+		PROCESS(CLK, RESETn)
+		BEGIN
+		
+		IF RESETn = '0' THEN 
+			state <= INITIALIZE;
+		ELSIF (rising_edge(clk)) THEN 
+			state <= nextState;
+		END IF;
+		
+		END PROCESS;
+		
+		
+		
+		
+		PROCESS(state, OPCODE)
+		BEGIN
+		
+			PC_H.INC <= '0';		  
+			PC_H.OUTEN <= '0';       
+			PC_L.INC <= '0';			  
+			PC_L.OUTEN <= '0';		  
+			AR_H.LD <= '0';			  
+			AR_L.LD <= '0';			 
+			IR.LD <= '0';				  
+			WREN <= '0';				 
+			RDEN <= '0';				 
+		
+			CASE state IS
+				WHEN INITIALIZE =>
+						nextState <= FETCH0;
+				 WHEN FETCH0 =>
+					 PC_H.OUTEN <= '1';
+					 AR_H.LD <= '1';
+				   nextState <= FETCH1;
+					
+				 WHEN FETCH1 =>
+					PC_L.OUTEN <= '1';
+					AR_L.LD <= '1';
+					nextState <= FETCH2;
+				 WHEN FETCH2 =>
+					RDEN <= '1';
+					IR.LD <= '1';
+					nextState <= DECODE;
+			
+				 WHEN DECODE =>
+					nextState <= FETCH0;
+				
+				END CASE;
+		END PROCESS; 
+	
+					
+	END STR;
+				
+			
+			

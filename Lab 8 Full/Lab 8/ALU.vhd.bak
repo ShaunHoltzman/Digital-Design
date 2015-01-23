@@ -1,0 +1,119 @@
+library ieee; 
+use ieee.std_logic_1164.all; 
+use ieee.numeric_std.all;
+
+ENTITY ALU IS
+
+ 
+		PORT ( 
+		A       : IN STD_LOGIC_VECTOR(7 DOWNTO 0); 
+		D       : IN STD_LOGIC_VECTOR(7 DOWNTO 0); 
+		ALU_SEL : IN STD_LOGIC_VECTOR(3 DOWNTO 0); 
+		ALU_OUT : OUT STD_LOGIC_VECTOR(7 DOWNTO 0); 
+		OV      : OUT STD_LOGIC
+		); 
+		
+END ALU;
+
+ARCHITECTURE STR OF ALU IS 
+
+	
+
+	SIGNAL tempA: UNSIGNED(8 DOWNTO 0);
+	SIGNAL tempD: UNSIGNED(8 DOWNTO 0);
+	SIGNAL tempout: UNSIGNED(8 DOWNTO 0);
+	SIGNAL multout: UNSIGNED(17 DOWNTO 0);
+	SIGNAL reverseout: UNSIGNED(7 DOWNTO 0);
+	SIGNAL swapout: UNSIGNED(7 DOWNTO 0);
+	SIGNAL tempswap: UNSIGNED(7 DOWNTO 0);
+	SIGNAL tempoverflow: UNSIGNED(1 DOWNTO 0); 
+	SIGNAL tempoverflow2: UNSIGNED(1 DOWNTO 0);
+	SIGNAL tempmultoverflow: UNSIGNED(17 DOWNTO 0);
+	
+	 
+	
+	SIGNAL temp3: UNSIGNED(9 DOWNTO 0);
+	
+	BEGIN
+		
+		
+	
+		tempA <= UNSIGNED('0' & A);
+		tempD <= UNSIGNED('0' & D);
+		tempswap <= UNSIGNED(A);
+		multout <= (tempA*tempD);
+		swapout <= ROTATE_LEFT(UNSIGNED(A), 4);
+		tempmultoverflow(WIDTH-1 DOWNTO 0) <= (others => '1');
+		tempmultoverflow(WIDTH+WIDTH+1 DOWNTO WIDTH) <= (others => '0');
+		
+		
+		
+								  
+		tempoverflow2 <= "01" WHEN multout > tempmultoverflow else	
+							  "00" WHEN multout < tempmultoverflow;
+							 
+		
+		
+		WITH sel SELECT
+		tempout <= NOT(tempA) WHEN "0000",
+				 (tempA NOR tempD) WHEN "0001",		
+				 (tempA XOR tempD) WHEN "0010",
+				 (tempA OR tempD) WHEN "0011",
+				 (tempA AND tempD) WHEN "0100",
+				 (tempA + tempD) WHEN "0101",
+				 (tempA - tempD) WHEN "0110",
+				  multout(WIDTH DOWNTO 0) WHEN "0111",
+				  (others => '0')         WHEN "1000",
+				  (others => '0')       WHEN "1001",
+				  SHIFT_LEFT(tempA,1) WHEN "1010",
+				  SHIFT_RIGHT(tempA,1) WHEN "1011",
+				  ('0'&reverseout)            WHEN "1100", 
+				  ('0'&swapout)              WHEN "1101", 
+				  (others => '0')         WHEN "1110",
+				  SHIFT_RIGHT(tempD, 2)      WHEN "1111",
+				  (others => '0')        WHEN OTHERS;
+				  
+		output <= STD_LOGIC_VECTOR(tempout(7 DOWNTO 0));
+		
+		
+		WITH sel SELECT
+		overflow <=    '0' WHEN "0000",
+							'0' WHEN "0001",		
+							'0' WHEN "0010",
+							'0' WHEN "0011",
+							'0' WHEN "0100",
+							(tempout(WIDTH)) WHEN "0101",
+							'0' WHEN "0110",
+							tempoverflow2(0) WHEN "0111",
+							'0'              WHEN "1000",
+							'0'              WHEN "1001",
+							(tempA(WIDTH-1)) WHEN "1010",
+							(tempA(0))      WHEN "1011",
+							'0'             WHEN "1100", 
+							'0'             WHEN "1101", 
+							'0'             WHEN "1110",
+							'0'             WHEN "1111",
+							'0'              WHEN OTHERS;
+		
+		
+	reverse : PROCESS(tempA)
+	
+	
+	BEGIN
+	
+	FOR i IN 0 TO (WIDTH/2) LOOP
+				reverseout(WIDTH-1-i) <= tempA(i);
+				reverseout(i) <= tempA(WIDTH-1-i);			
+	END LOOP;
+	
+	
+	
+	
+	END PROCESS;
+		
+		
+				
+				
+		
+		
+	END STR;

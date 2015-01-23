@@ -1,0 +1,54 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
+
+ENTITY PC IS 
+	PORT
+		( 
+			CLK        : IN STD_LOGIC;
+			PC_INC     : IN STD_LOGIC;
+			PC_H_OUTEN : IN STD_LOGIC;
+			PC_L_OUTEN : IN STD_LOGIC;
+			Resetn     : IN STD_LOGIC;
+			PC       : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+		);
+	END PC;
+	
+	
+	ARCHITECTURE STR OF PC IS 
+	
+	SIGNAL tempCount : STD_LOGIC_VECTOR(15 DOWNTO 0);
+	SIGNAL PC_H : STD_LOGIC_VECTOR(7 DOWNTO 0);
+	SIGNAL PC_L : STD_LOGIC_VECTOR(7 DOWNTO 0);
+	
+	
+	BEGIN
+	
+	PROCESS(CLK, Resetn)
+	
+		BEGIN
+		
+		IF(Resetn = '0') THEN
+			tempCount <= (OTHERS => '0');;
+		ELSIF (rising_edge(CLK)) THEN
+			IF PC_INC = '1' THEN
+					tempCount <= tempCount + 1;
+			END IF;
+		END IF;
+	
+	END PROCESS; 
+	
+	PC_H <= tempCount(15 DOWNTO 8) WHEN PC_H_OUTEN = '1' ELSE "ZZZZZZZZ"; --Asynchronous output enable
+	PC_L <= tempCount(7 DOWNTO 0) WHEN PC_L_OUTEN = '1' ELSE "ZZZZZZZZ";
+	
+	
+	
+	END STR; 
+				
+		
+			
+	
+	
+	
+	

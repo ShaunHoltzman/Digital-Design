@@ -1,0 +1,41 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+ENTITY AR_L IS 
+	PORT
+		( 
+			CLK          : IN STD_LOGIC;
+			AR_L.OUTEN   : IN STD_LOGIC;
+			AR_L.LD      : IN STD_LOGIC;
+			Input        : IN STD_LOGIC_VECTOR(7 DOWNTO 0);
+			Output       : OUT STD_LOGIC_VECTOR(7 DOWNTO 0)
+		);
+	END AR_L;
+	
+	
+	ARCHITECTURE STR OF AR_L IS 
+	
+	SIGNAL Data : STD_LOGIC_VECTOR(7 DOWNTO 0);
+	
+	BEGIN
+	
+		PROCESS(CLK)
+	
+		BEGIN
+		
+			IF(rising_edge(CLK)) THEN  --Synchronous load
+		
+				IF LD = '0' THEN
+					Data <= Data;
+				ELSIF LD = '1' THEN
+					Data <= Input;
+				END IF;
+			END IF;
+			
+		END PROCESS;
+		
+		Output <= Data WHEN OutEN = '1' ELSE "ZZZZZZZZ"; --Asynchronous output enable
+		
+			
+	END STR;

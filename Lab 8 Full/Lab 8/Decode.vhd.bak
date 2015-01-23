@@ -1,0 +1,52 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+
+ENTITY Decode IS 
+	PORT
+		( 
+		ADDR      : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+		WREN      : IN STD_LOGIC;
+		RDEN      : IN STD_LOGIC;
+		MEM.EN    : OUT STD_LOGIC;
+		IN0.EN    : OUT STD_LOGIC;
+		IN1.EN    : OUT STD_LOGIC;
+		OUT0.EN   : OUT STD_LOGIC;
+		OUT1.EN   : OUT STD_LOGIC
+		);
+	END Decode;
+	
+		ARCHITECTURE STR OF Decode IS
+		
+		VARIABLE tempADDR : UNSIGNED(15 DOWNTO 0);
+	
+
+		BEGIN
+		
+			PROCESS(ADDR, WREN, RDEN)
+			
+				BEGIN
+				
+					tempADDR := UNSIGNED(ADDR)
+					
+					IF(tempADDR >= X"FFFE") THEN
+						IN1.EN <= ADDR(0) AND RDEN;
+						IN0.EN <= (NOT ADDR(0)) AND RDEN;
+						OUT1.EN <= ADDR(0) AND WREN;
+						OUT0.EN <= (NOT ADDR(0)) AND RDEN;
+					ELSE
+						IN1.EN <= '0';
+						IN0.EN <= '0';
+						OUT1.EN <= '0';
+						OUT0.EN <= '0';
+						MEM.EN <=  '1';
+						
+					ENDIF;
+
+				
+					
+			END PROCESS;
+				
+						
+		END STR;
